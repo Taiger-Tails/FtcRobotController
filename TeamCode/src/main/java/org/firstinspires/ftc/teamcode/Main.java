@@ -9,6 +9,7 @@ public class Main extends OpMode {
 
     double forward, strafe, rotate;
 
+    // Initialize driving
     @Override
     public void init() {
         drive.Init(hardwareMap);
@@ -16,11 +17,12 @@ public class Main extends OpMode {
 
     @Override
     public void loop() {
+
         forward = gamepad1.left_stick_y;
         strafe = -gamepad1.left_stick_x;
         rotate = -gamepad1.right_stick_x;
 
-        drive.driveFieldRelative(forward,strafe,rotate);
+        drive.DriveFieldRelative(forward,strafe,rotate);
 
         if (gamepad1.ps) {
             drive.ResetIMU();
