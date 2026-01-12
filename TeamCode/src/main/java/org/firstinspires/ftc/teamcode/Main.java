@@ -26,10 +26,11 @@ public class Main extends OpMode {
 
         Drive.DriveFieldRelative(Forward,Strafe,Rotate);
 
-        if (gamepad1.ps) {
-            Drive.ResetIMU();
-        }
-
+//        if (gamepad1.ps) {
+//            Drive.ResetIMU();
+//        }
+        // ^ Add this back later.
+        
         if (gamepad1.a) {
             Shooter.SetPower(1);
         } else {
