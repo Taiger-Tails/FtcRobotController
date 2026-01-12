@@ -20,13 +20,13 @@ public class Main extends OpMode {
     // Initialize gamepad controls
     @Override
     public void loop() {
-        Forward = -gamepad1.left_stick_y;
-        Strafe = -gamepad1.left_stick_x;
-        Rotate = -gamepad1.right_stick_x;
+        Forward = gamepad1.left_stick_y;
+        Strafe = gamepad1.left_stick_x;
+        Rotate = gamepad1.right_stick_x;
 
         Drive.DriveFieldRelative(Forward,Strafe,Rotate);
 
-        if (gamepad1.ps) {
+        if (gamepad1.x) {
             Drive.ResetIMU();
         }
 
@@ -35,5 +35,6 @@ public class Main extends OpMode {
         } else {
             Shooter.SetPower(0);
         }
+
     }
 }

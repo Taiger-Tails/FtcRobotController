@@ -31,6 +31,7 @@ public class Drive {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         Imu.initialize(parameters);
+        Imu.resetYaw();
 
         // Getting the wheel motors and setting them up
 
@@ -60,7 +61,6 @@ public class Drive {
 
     public void ResetIMU() {
         Imu.resetYaw();
-        Imu.resetDeviceConfigurationForOpMode();
     }
 
     public void DriveFieldRelative(double x, double y, double Rotation) {
