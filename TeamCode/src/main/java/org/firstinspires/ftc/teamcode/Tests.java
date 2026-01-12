@@ -22,12 +22,8 @@ public class Tests extends OpMode {
         telemetry.addData("Shooter ", "OK");
 
         // Test all drive methods
-        Drive.MoveMotors(0,0,0);
-        telemetry.addData("Drive: MoveMotors ","OK");
         Drive.DriveFieldRelative(0,0,0);
         telemetry.addData("Drive: DriveFieldRelative ","OK");
-        Drive.ResetIMU();
-        telemetry.addData("Drive: ResetIMU ","OK");
 
         // Test joysticks
         telemetry.addData("gamepad1.left_stick_x", gamepad1.left_stick_x);
