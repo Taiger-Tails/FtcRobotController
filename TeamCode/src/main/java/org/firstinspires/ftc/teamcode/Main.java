@@ -20,32 +20,19 @@ public class Main extends OpMode {
     // Initialize gamepad controls
     @Override
     public void loop() {
+        final double ServoSpinDirection = gamepad1.left_trigger - gamepad1.right_trigger;
+
         Forward = gamepad1.left_stick_y;
         Strafe = gamepad1.left_stick_x;
         Rotate = gamepad1.right_stick_x;
 
         Drive.DriveFieldRelative(Forward,Strafe,Rotate);
 
-        if (gamepad1.x) {
+        Shooter.SetShooterPower(gamepad1.a ? 1 : gamepad1.b ? -1 : 0);
+        Shooter.SetServoPower(ServoSpinDirection > 0 ? 1 : ServoSpinDirection < 0 ? -1 : 0);
+
+        if (gamepad1.ps) {
             Drive.ResetIMU();
-        }
-
-        if (gamepad1.a) {
-            Shooter.SetShooterPower(1);
-        } else if (gamepad1.b) {
-            Shooter.SetShooterPower(-1);
-        } else {
-            Shooter.SetShooterPower(0);
-        }
-
-        final double ServoSpinDirection = gamepad1.left_trigger - gamepad1.right_trigger;
-
-        if (ServoSpinDirection > 0) {
-            Shooter.SetServoPower(1);
-        } else if (ServoSpinDirection < 0) {
-            Shooter.SetServoPower(-1);
-        } else {
-            Shooter.SetServoPower(0);
         }
     }
 }
