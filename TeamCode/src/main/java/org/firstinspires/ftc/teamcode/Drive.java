@@ -1,6 +1,3 @@
-// https://github.com/FireFlies-Robotics/IntoTheDeep-FtcRobotController/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Wheels.java
-// <3
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -12,81 +9,72 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Drive {
-    private DcMotor FrontLeft;
-    private DcMotor FrontRight;
-    private DcMotor BackLeft;
-    private DcMotor BackRight;
+    // Make motor and imu variables
 
-    private IMU Imu; // Gyros used to get the robots rotation
+    private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
+    private IMU Imu;
 
-    public double MaxSpeed = 1;
+    public void Init(HardwareMap hwMap) {
+        // Set variables
 
-    public void Init(HardwareMap HwMap) {
+        FrontRightMotor = hwMap.get(DcMotor.class, "FR");
+        FrontLeftMotor = hwMap.get(DcMotor.class, "FL");
+        BackRightMotor = hwMap.get(DcMotor.class, "BR");
+        BackLeftMotor = hwMap.get(DcMotor.class, "BL");
 
-        // Retrieve the IMU from the hardware map
-        this.Imu = HwMap.get(IMU.class, "IMU");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+        FrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        BackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        FrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FrontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        Imu = hwMap.get(IMU.class, "IMU");
+
+        RevHubOrientationOnRobot RobotOrientation = new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        Imu.initialize(parameters);
-        Imu.resetYaw();
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
+        );
 
-        // Getting the wheel motors and setting them up
-
-        FrontLeft = HwMap.get(DcMotor.class, "FL");
-        FrontRight = HwMap.get(DcMotor.class, "FR");
-        BackLeft = HwMap.get(DcMotor.class, "BL");
-        BackRight = HwMap.get(DcMotor.class, "BR");
-
-        FrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        BackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        FrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Imu.initialize(new IMU.Parameters(RobotOrientation));
     }
 
+    public void MoveMotors(double forward, double strafe, double rotate) {
+        // Math stuff (don't touch)
+
+        double FrontLeftPower = forward + strafe + rotate;
+        double BackLeftPower = forward - strafe + rotate;
+        double FrontRightPower = forward - strafe - rotate;
+        double BackRightPower = forward + strafe - rotate;
+
+        double MaxPower = 1.0;
+        double MaxSpeed = 1.0;
+
+        MaxPower = Math.max(MaxPower, Math.abs(FrontLeftPower));
+        MaxPower = Math.max(MaxPower, Math.abs(BackLeftPower));
+        MaxPower = Math.max(MaxPower, Math.abs(FrontRightPower));
+        MaxPower = Math.max(MaxPower, Math.abs(BackRightPower));
+
+        FrontLeftMotor.setPower(MaxSpeed * (FrontLeftPower / MaxPower));
+        FrontRightMotor.setPower(MaxSpeed * (FrontRightPower / MaxPower));
+        BackRightMotor.setPower(MaxSpeed * (BackRightPower / MaxPower));
+        BackLeftMotor.setPower(MaxSpeed * (BackLeftPower / MaxPower));
+    }
+
+    public void DriveFieldRelative(double forward, double strafe, double rotate) {
+        // More math stuff (also don't touch)
+
+        double Theta = AngleUnit.normalizeRadians(Math.atan2(forward, strafe) - Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        double R = Math.hypot(strafe, forward);
+
+        double NewForward = R * Math.sin(Theta);
+        double NewStrafe = R * Math.cos(Theta);
+
+        this.MoveMotors(NewForward, NewStrafe, rotate);
+    }
     public void ResetIMU() {
         Imu.resetYaw();
-    }
-
-    public void DriveFieldRelative(double x, double y, double Rotation) {
-        double Yaw = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // Get the Yaw angle of the robot
-
-        // Rotate the movement direction counter to the robot's rotation
-        double RotX = x * Math.cos(-Yaw) - y * Math.sin(-Yaw);
-        double RotY = x * Math.sin(-Yaw) + y * Math.cos(-Yaw);
-
-        RotX = RotX * 1.1;  // Counteract imperfect strafing
-
-        // Denominator is the largest motor power (absolute value) or 1
-        // This ensures all the powers maintain the same ratio,
-        // but only if at least one is out of the range [-1, 1]
-
-        double Denominator = Math.max(Math.abs(RotY) + Math.abs(RotX) + Math.abs(Rotation), 1);
-        double FrontLeftPower = (RotY + RotX + Rotation) / Denominator;
-        double BackLeftPower = (RotY - RotX + Rotation) / Denominator;
-        double FrontRightPower = (RotY - RotX - Rotation) / Denominator;
-        double BackRightPower = (RotY + RotX - Rotation) / Denominator;
-
-        // Move motors.
-
-        FrontLeft.setPower(FrontLeftPower * MaxSpeed);
-        BackLeft.setPower(BackLeftPower * MaxSpeed);
-        FrontRight.setPower(FrontRightPower * MaxSpeed);
-        BackRight.setPower(BackRightPower * MaxSpeed);
+        Imu.resetDeviceConfigurationForOpMode();
     }
 }
