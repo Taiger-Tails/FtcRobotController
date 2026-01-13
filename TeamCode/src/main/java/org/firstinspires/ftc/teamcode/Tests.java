@@ -19,6 +19,7 @@ public class Tests extends OpMode {
     @Override
     public void loop() {
         // Test Shooter methods
+
         Shooter.SetShooterPower(0);
         telemetry.addData("Shooter: Shooter", "OK");
 
@@ -26,6 +27,7 @@ public class Tests extends OpMode {
         telemetry.addData("Shooter: Servos", "OK");
 
         // Test Drive methods
+
         Drive.DriveFieldRelative(0,0,0);
         telemetry.addData("Drive: DriveFieldRelative","OK");
 
@@ -36,12 +38,14 @@ public class Tests extends OpMode {
         telemetry.addData("Drive: ResetIMU", "OK");
 
         // Test joysticks
+
         telemetry.addData("gamepad1.left_stick_x", gamepad1.left_stick_x);
         telemetry.addData("gamepad1.left_stick_y", gamepad1.left_stick_y);
         telemetry.addData("gamepad1.right_stick_x", gamepad1.right_stick_x);
         telemetry.addData("gamepad1.right_stick_y", gamepad1.right_stick_y);
 
         // Test buttons
+
         telemetry.addData("gamepad1.a", gamepad1.a);
         telemetry.addData("gamepad1.b", gamepad1.b);
         telemetry.addData("gamepad1.x", gamepad1.x);
