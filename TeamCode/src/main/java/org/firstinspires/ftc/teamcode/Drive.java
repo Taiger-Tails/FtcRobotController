@@ -39,6 +39,8 @@ public class Drive {
         );
 
         Imu.initialize(new IMU.Parameters(RobotOrientation));
+
+        this.ResetIMU();
     }
 
     public void MoveMotors(double Forward, double Strafe, double Rotate) {
