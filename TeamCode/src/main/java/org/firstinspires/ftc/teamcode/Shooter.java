@@ -15,7 +15,7 @@ public class Shooter {
         ServoLeft = HwMap.get(CRServo.class, "SL");
         ServoRight = HwMap.get(CRServo.class, "SR");
 
-        // Set it to break because when testing it wastes time to wait for it to stop
+        // Set it to break because when testing it wastes time by not coming to a complete stop
         ShooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 

@@ -18,14 +18,14 @@ public class Tests extends OpMode {
 
     @Override
     public void loop() {
-        // Test all Shooter methods
+        // Test Shooter methods
         Shooter.SetShooterPower(0);
         telemetry.addData("Shooter: Shooter", "OK");
 
         Shooter.SetServoPower(0);
         telemetry.addData("Shooter: Servos", "OK");
 
-        // Test all drive methods
+        // Test Drive methods
         Drive.DriveFieldRelative(0,0,0);
         telemetry.addData("Drive: DriveFieldRelative","OK");
 
