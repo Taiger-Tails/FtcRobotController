@@ -20,11 +20,13 @@ public class Tests extends OpMode {
     public void loop() {
         // Test Shooter methods
 
-        Shooter.SetShooterPower(0);
+        Shooter.SetShooterPower(gamepad1.a ? 1 : gamepad1.b ? -1 : 0);
         telemetry.addData("Shooter: Shooter", "OK");
 
         Shooter.SetServoPower(0);
         telemetry.addData("Shooter: Servos", "OK");
+
+        telemetry.addData("Shooter: Servos", Shooter.ShooterSpeed);
 
         // Test Drive methods
 

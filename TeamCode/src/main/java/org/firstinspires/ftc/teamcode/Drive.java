@@ -77,6 +77,7 @@ public class Drive {
     }
     public void ResetIMU() {
         Imu.resetYaw();
-        Imu.resetDeviceConfigurationForOpMode();
+        //Imu.resetDeviceConfigurationForOpMode();
+        // ^ I wonder if this is why the drive didn't work
     }
 }

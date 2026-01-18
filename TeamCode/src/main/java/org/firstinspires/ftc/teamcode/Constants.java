@@ -7,6 +7,8 @@ public class Constants {
     final public String SERVO_LEFT_DEVICE_NAME = "SL";
     final public String SHOOTER_WHEEL_DEVICE_NAME = "Shooter";
     final public double MAX_SHOOTER_POWER = 8;
+    final public double MINIMUM_SHOOTER_SPEED_FOR_SERVOS_TO_ACTIVATE = 0;
+    // TODO: ^ find a better name for this lol
 
     // Drive constants
 
