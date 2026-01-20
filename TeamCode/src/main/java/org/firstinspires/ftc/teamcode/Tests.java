@@ -25,7 +25,7 @@ public class Tests extends OpMode {
         Shooter.SetServoPower(0);
         telemetry.addData("Shooter: Servos", "OK");
 
-        telemetry.addData("Shooter: Servos", Shooter.ShooterSpeed);
+        telemetry.addData("Shooter Speed", Shooter.ShooterSpeed);
 
         // Test Drive methods
 
