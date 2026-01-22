@@ -29,8 +29,16 @@ public class Tests extends OpMode {
 
         // Test Drive methods
 
-        Drive.DriveFieldRelative(0,0,0);
+        double Forward = gamepad1.left_stick_y;
+        double Strafe = gamepad1.left_stick_x;
+        double Rotate = gamepad1.right_stick_x;
+
+        Drive.DriveFieldRelative(Strafe, Forward, Rotate);
+
         telemetry.addData("Drive: DriveFieldRelative","OK");
+        telemetry.addData("Forward", Forward);
+        telemetry.addData("Strafe", Strafe);
+        telemetry.addData("Rotate", Rotate);
 
         Drive.ResetIMU();
         telemetry.addData("Drive: ResetIMU", "OK");

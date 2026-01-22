@@ -22,15 +22,15 @@ public class Shooter {
         ShooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void SetShooterPower(double Power) {
+    public void SetShooterPower(final double Power) {
         ShooterMotor.setPower(Power * Constants.MAX_SHOOTER_POWER);
         double motorRevs = ShooterMotor.getCurrentPosition() / ShooterMotor.getMotorType().getTicksPerRev();
         ShooterSpeed = motorRevs - PreviousMotorRevs;
         PreviousMotorRevs = motorRevs;
     }
 
-    public void SetServoPower(double Power) {
-        if (ShooterSpeed > Constants.MIN_SPEED_TO_ACTIVATE_SERVOS) {
+    public void SetServoPower(final double Power) {
+        if (ShooterSpeed > Constants.MIN_SPEED_TO_ENABLE_SERVOS) {
             ServoLeft.setPower(-Power);
             ServoRight.setPower(Power);
         } else {

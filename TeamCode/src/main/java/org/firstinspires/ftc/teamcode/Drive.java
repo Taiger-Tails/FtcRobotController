@@ -20,11 +20,9 @@ public class Drive {
         // Retrieve the IMU from the hardware map
         Imu = HwMap.get(IMU.class, Constants.IMU_NAME);
 
-        // Adjust the orientation parameters to match your robot
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
-
         Imu.initialize(parameters);
 
         // Getting the wheel motors and setting them up
@@ -42,24 +40,19 @@ public class Drive {
         BackLeft.setZeroPowerBehavior(Constants.WHEEL_ZERO_POWER_BEHAVIOUR);
         BackRight.setZeroPowerBehavior(Constants.WHEEL_ZERO_POWER_BEHAVIOUR);
 
-        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         FrontLeft.setMode(Constants.WHEEL_RUN_MODE);
         FrontRight.setMode(Constants.WHEEL_RUN_MODE);
         BackLeft.setMode(Constants.WHEEL_RUN_MODE);
         BackRight.setMode(Constants.WHEEL_RUN_MODE);
     }
 
-    public void DriveFieldRelative(double x, double y, double Rotation) {
-        double MaxSpeed = Constants.MAX_DRIVE_SPEED;
-        double Yaw = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // Get the Yaw angle of the robot
+    public void DriveFieldRelative(final double x, final double y, final double Rotation) {
+        final double MaxSpeed = Constants.MAX_DRIVE_SPEED;
+        final double Yaw = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // Get the Yaw angle of the robot
 
         // Rotate the movement direction counter to the robot's rotation
         double RotX = x * Math.cos(-Yaw) - y * Math.sin(-Yaw);
-        double RotY = x * Math.sin(-Yaw) + y * Math.cos(-Yaw);
+        final double RotY = x * Math.sin(-Yaw) + y * Math.cos(-Yaw);
 
         RotX = RotX * 1.1;  // Counteract imperfect strafing
 
@@ -67,11 +60,11 @@ public class Drive {
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
 
-        double Denominator = Math.max(Math.abs(RotY) + Math.abs(RotX) + Math.abs(Rotation), 1);
-        double FrontLeftPower = (RotY + RotX + Rotation) / Denominator;
-        double BackLeftPower = (RotY - RotX + Rotation) / Denominator;
-        double FrontRightPower = (RotY - RotX - Rotation) / Denominator;
-        double BackRightPower = (RotY + RotX - Rotation) / Denominator;
+        final double Denominator = Math.max(Math.abs(RotY) + Math.abs(RotX) + Math.abs(Rotation), 1);
+        final double FrontLeftPower = (RotY + RotX + Rotation) / Denominator;
+        final double BackLeftPower = (RotY - RotX + Rotation) / Denominator;
+        final double FrontRightPower = (RotY - RotX - Rotation) / Denominator;
+        final double BackRightPower = (RotY + RotX - Rotation) / Denominator;
 
         // Move motors.
 
