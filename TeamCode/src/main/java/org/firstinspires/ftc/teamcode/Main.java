@@ -38,10 +38,18 @@ public class Main extends OpMode {
 
         Shooter.SetShooterPower(gamepad1.a ? 1 : gamepad1.b ? -1 : 0);
         Shooter.SetServoPower(ServoSpinDirection > 0 ? 1 : ServoSpinDirection < 0 ? -1 : 0);
-        Shooter.MaxShooterPower = gamepad1.dpadDownWasReleased() ? Shooter.MaxShooterPower - 0.1 : gamepad1.dpadUpWasReleased() ? Shooter.MaxShooterPower + 0.1 : Shooter.MaxShooterPower;
+
+        if (gamepad1.dpadDownWasReleased()){
+      Shooter.MaxShooterPower -= 0.1;
+      }else if(gamepad1.dpadUpWasReleased()){
+          Shooter.MaxShooterPower += 0.1;
+      }
+
+
 
         if (gamepad1.ps) {
             Drive.ResetIMU();
-        }
+
     }
+}
 }
