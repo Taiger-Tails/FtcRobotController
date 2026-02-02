@@ -1,15 +1,22 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.Drive;
+import org.firstinspires.ftc.teamcode.Shooter;
+
+@Deprecated
+@Disabled
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class FarBlueAutonomous extends LinearOpMode {
+public class CloseAutonomous extends LinearOpMode {
     Drive Drive = new Drive();
     Shooter Shooter = new Shooter();
     final Constants Constants = new Constants();
 
-    final double MaxShooterPower = 0.67;
-    final double MaxDrivePower = 0.7;
+    final double MaxShooterPower = 0.467;
+    final double MaxDrivePower = 0.67;
 
     @Override
     public void runOpMode() {
@@ -18,23 +25,19 @@ public class FarBlueAutonomous extends LinearOpMode {
 
         waitForStart();
 
+        super.waitForStart();
+
         Drive.ResetIMU();
 
-        Drive.DriveFieldRelative(0, 1 * MaxDrivePower, 0);
+        Drive.DriveFieldRelative(0, -1 * MaxShooterPower, 0);
 
-        sleep(1400);
+        sleep(1500);
 
         Drive.DriveFieldRelative(0, 0, 0);
 
         Shooter.SetShooterPower(Constants.MAX_SHOOTER_POWER);
 
-        Drive.DriveFieldRelative(0, 0, 1);
-
-        sleep(250);
-
-        Drive.DriveFieldRelative(0, 0, 0);
-
-        sleep(2000);
+        sleep(3000);
 
         for (double i = 1; i <= 3; i++) {
             Shooter.SetServoPower(0.9);
@@ -48,9 +51,9 @@ public class FarBlueAutonomous extends LinearOpMode {
 
         Shooter.SetShooterPower(0);
 
-        Drive.DriveFieldRelative(0, -1, 0);
+        Drive.DriveFieldRelative(0, -1 * MaxDrivePower, 0);
 
-        sleep(600);
+        sleep(700);
 
         Drive.DriveFieldRelative(0, 0, 0);
     }

@@ -9,7 +9,6 @@ public class Main extends OpMode {
     Drive Drive = new Drive();
     Shooter Shooter = new Shooter();
 
-    boolean ToggleShooterSlowness = false;
     boolean ToggleDriveSlowness = false;
 
     // Initialize driving
@@ -28,7 +27,6 @@ public class Main extends OpMode {
 
         telemetry.addData("Drive Slowness", ToggleDriveSlowness);
         telemetry.addData("Current Max Shooter Power", Shooter.MaxShooterPower);
-        telemetry.addData("RPL", Shooter.ShooterSpeed);
 
         final double Aqua = ToggleDriveSlowness ? 0.15 : 1; // Aqua is useful!
 
