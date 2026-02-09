@@ -10,6 +10,7 @@ final public class Constants {
     final public String SHOOTER_WHEEL_NAME = "Shooter";
     final public double MAX_SHOOTER_POWER = 0.8;
     final public double MIN_SPEED_TO_ENABLE_SERVOS = 0.008;
+    final public int RED_APRIL_TAG_ID = 26;
 
     // Drive constants
 

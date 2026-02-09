@@ -3,11 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
 @TeleOp
 public class Main extends OpMode {
     // Make variables
     Drive Drive = new Drive();
     Shooter Shooter = new Shooter();
+    AprilTagWebcam AprilTagWebcam = new AprilTagWebcam();
+
+    Constants Constants = new Constants();
 
     boolean ToggleDriveSlowness = false;
 
@@ -16,6 +21,7 @@ public class Main extends OpMode {
     public void init() {
         Drive.Init(hardwareMap);
         Shooter.Init(hardwareMap);
+        AprilTagWebcam.Init(hardwareMap, telemetry);
     }
 
     // Initialize gamepad controls
@@ -25,8 +31,8 @@ public class Main extends OpMode {
 
         ToggleDriveSlowness = gamepad1.left_stick_button || gamepad1.right_stick_button || gamepad1.right_bumper || gamepad1.left_bumper;
 
-        telemetry.addData("Drive Slowness", ToggleDriveSlowness);
-        telemetry.addData("Current Max Shooter Power", Shooter.MaxShooterPower);
+//        telemetry.addData("Drive Slowness", ToggleDriveSlowness);
+//        telemetry.addData("Current Max Shooter Power", Shooter.MaxShooterPower);
 
         final double Aqua = ToggleDriveSlowness ? 0.15 : 1; // Aqua is useful!
 
@@ -39,17 +45,18 @@ public class Main extends OpMode {
         Shooter.SetShooterPower(gamepad1.a ? 1 : gamepad1.b ? -1 : 0);
         Shooter.SetServoPower(ServoSpinDirection > 0 ? 1 : ServoSpinDirection < 0 ? -1 : 0);
 
-        if (gamepad1.dpadDownWasReleased()){
-      Shooter.MaxShooterPower -= 0.1;
-      }else if(gamepad1.dpadUpWasReleased()){
-          Shooter.MaxShooterPower += 0.1;
-      }
+        if (gamepad1.dpadDownWasReleased()) {
+            Shooter.MaxShooterPower -= 0.1;
+          } else if(gamepad1.dpadUpWasReleased()) {
+            Shooter.MaxShooterPower += 0.1;
+        }
 
-
-
-        if (gamepad1.ps) {
+        if (gamepad1.share) {
             Drive.ResetIMU();
+        }
 
+        AprilTagWebcam.Update();
+        AprilTagDetection Detection = AprilTagWebcam.GetTagByID(Constants.RED_APRIL_TAG_ID);
+        AprilTagWebcam.DisplayTelemetryData(Detection);
     }
-}
 }
