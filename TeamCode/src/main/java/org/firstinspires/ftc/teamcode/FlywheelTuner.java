@@ -28,18 +28,13 @@ public class FlywheelTuner extends OpMode {
 
     int StepIndex = 1;
 
-    Shooter Shooter = new Shooter();
-
     @Override
     public void init() {
         FlywheelMotor = hardwareMap.get(DcMotorEx.class, Constants.SHOOTER_WHEEL_NAME);
-        Shooter.Init(hardwareMap);
         FlywheelMotor.setMode(Constants.WHEEL_RUN_MODE);
 
         PIDFCoefficients pidfCoeffcients = new PIDFCoefficients(P, 0, 0, F);
         FlywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoeffcients);
-
-
     }
 
     @Override

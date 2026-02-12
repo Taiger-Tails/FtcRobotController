@@ -9,21 +9,19 @@ public class Shooter {
     // Make variables
     final private Constants Constants = new Constants();
 
-    private DcMotor ShooterMotor, ShooterMotor2;
+    public DcMotor ShooterMotor, ShooterMotor2;
     private CRServo ServoLeft, ServoRight;
 
     private double PreviousMotorRevs = 0;
     public double ShooterSpeed = 0;
     public double MaxShooterPower = Constants.MAX_SHOOTER_POWER;
 
-    public boolean ServoOverride = false;
-
     public void Init(HardwareMap HwMap) {
         // Set variables
         ShooterMotor = HwMap.get(DcMotor.class, Constants.SHOOTER_WHEEL_NAME);
         ServoLeft = HwMap.get(CRServo.class, Constants.SERVO_LEFT_NAME);
         ServoRight = HwMap.get(CRServo.class, Constants.SERVO_RIGHT_NAME);
-        ShooterMotor2 = HwMap.get(DcMotor.class, "Shooter2");
+        ShooterMotor2 = HwMap.get(DcMotor.class, Constants.SECOND_SHOOTER_WHEEL_NAME);
 
         ShooterMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
 

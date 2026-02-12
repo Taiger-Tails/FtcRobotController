@@ -31,8 +31,9 @@ public class Main extends OpMode {
 
         ToggleDriveSlowness = gamepad1.left_stick_button || gamepad1.right_stick_button || gamepad1.right_bumper || gamepad1.left_bumper;
 
-//        telemetry.addData("Drive Slowness", ToggleDriveSlowness);
-//        telemetry.addData("Current Max Shooter Power", Shooter.MaxShooterPower);
+        telemetry.addData("Drive Slowness", ToggleDriveSlowness);
+        telemetry.addData("Current Max Shooter Power", Shooter.MaxShooterPower);
+        telemetry.addData("ShooterMotor", Shooter.ShooterMotor);
 
         final double Aqua = ToggleDriveSlowness ? 0.15 : 1; // Aqua is useful!
 
