@@ -1,17 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@Disabled
+//@Disabled
 @TeleOp
 public class Tests extends OpMode {
     // TODO: maybe add the telemetry from tests to main
     Shooter Shooter = new Shooter();
     Drive Drive = new Drive();
+
+    double Position = 0;
 
     @Override
     public void init() {
@@ -30,6 +32,18 @@ public class Tests extends OpMode {
         telemetry.addData("Shooter: Servos", "OK");
 
         telemetry.addData("Shooter Speed", Shooter.ShooterSpeed);
+
+        // Test Test Servo
+
+        Servo TestServo = hardwareMap.get(Servo.class, "TS");
+        Servo TestServo2 = hardwareMap.get(Servo.class, "TS2");
+
+        // thinking a lot in this space...
+
+        Position = Position + 0.1 % 1;
+        telemetry.addData("Servo Position", TestServo.getPosition());
+        TestServo.setPosition(Position);
+        TestServo2.setPosition(Position);
 
         // Test Drive methods
 

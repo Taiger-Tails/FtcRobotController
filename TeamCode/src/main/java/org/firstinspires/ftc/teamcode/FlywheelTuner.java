@@ -6,13 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 @TeleOp
 public class FlywheelTuner extends OpMode {
-    private static final Logger log = LoggerFactory.getLogger(FlywheelTuner.class);
     private final Constants Constants = new Constants();
     public DcMotorEx FlywheelMotor;
 
@@ -21,20 +16,24 @@ public class FlywheelTuner extends OpMode {
 
     public double CurTargetVelocity = HighVelocity;
 
-    double F = 0;
-    double P = 0;
+    public double P = 0;
+    public double I = 0;
+    public double D = 0;
+    public double F = 0;
 
-    double[] StepSizes = {10.0, 1.0, 0.1, 0.01, 0.001, 0.0001};
+    public boolean Switch = false;
 
-    int StepIndex = 1;
+    public final double[] StepSizes = {10.0, 1.0, 0.1, 0.01, 0.001, 0.0001};
+
+    public int StepIndex = 1;
 
     @Override
     public void init() {
         FlywheelMotor = hardwareMap.get(DcMotorEx.class, Constants.SHOOTER_WHEEL_NAME);
         FlywheelMotor.setMode(Constants.WHEEL_RUN_MODE);
 
-        PIDFCoefficients pidfCoeffcients = new PIDFCoefficients(P, 0, 0, F);
-        FlywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoeffcients);
+        PIDFCoefficients PIDFCoefficients = new PIDFCoefficients(P, I, D, F);
+        FlywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, PIDFCoefficients);
     }
 
     @Override
@@ -47,25 +46,45 @@ public class FlywheelTuner extends OpMode {
         if (gamepad1.bWasPressed()) {
             StepIndex = (StepIndex + 1) % StepSizes.length;
         }
+        if (!Switch) {
+            if (gamepad1.dpadLeftWasPressed()) {
+                F -= StepSizes[StepIndex];
+            }
 
-        if (gamepad1.dpadLeftWasPressed()) {
-            F -= StepSizes[StepIndex];
+            if (gamepad1.dpadRightWasPressed()) {
+                F += StepSizes[StepIndex];
+            }
+
+            if (gamepad1.dpadUpWasPressed()) {
+                P += StepSizes[StepIndex];
+            }
+
+            if (gamepad1.dpadDownWasPressed()) {
+                P -= StepSizes[StepIndex];
+            }
+        } else {
+            if (gamepad1.dpadUpWasPressed()) {
+                I += StepSizes[StepIndex];
+            }
+
+            if (gamepad1.dpadDownWasPressed()) {
+                I -= StepSizes[StepIndex];
+            }
+
+            if (gamepad1.dpadLeftWasPressed()) {
+                D -= StepSizes[StepIndex];
+            }
+
+            if (gamepad1.dpadRightWasPressed()) {
+                D += StepSizes[StepIndex];
+            }
         }
 
-        if (gamepad1.dpadRightWasPressed()) {
-            F += StepSizes[StepIndex];
+        if (gamepad1.aWasPressed()) {
+            Switch = !Switch;
         }
 
-        if (gamepad1.dpadUpWasPressed()) {
-            P += StepSizes[StepIndex];
-        }
-
-        if (gamepad1.dpadDownWasPressed()) {
-            P -= StepSizes[StepIndex];
-        }
-
-
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0,F);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, I, D, F);
         FlywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
         FlywheelMotor.setVelocity(CurTargetVelocity);
@@ -78,6 +97,8 @@ public class FlywheelTuner extends OpMode {
         telemetry.addData("Error","%.2f", Error);
         telemetry.addLine("---------------------------");
         telemetry.addData("Tuning P","%.4f (D-Pad U/D)", P);
+        telemetry.addData("Tuning I","%.4f (D-Pad U/D) (Second Mode)", I);
+        telemetry.addData("Tuning D", "%.4f (D-Pad L/R) (Second Mode)", D);
         telemetry.addData("Tuning F", "%.4f (D-Pad L/R)", F);
         telemetry.addData("Step Size", "%.4f (B Button)", StepSizes[StepIndex]);
 
