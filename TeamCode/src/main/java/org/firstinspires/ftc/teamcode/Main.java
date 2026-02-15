@@ -47,9 +47,9 @@ public class Main extends OpMode {
         Shooter.SetServoPower(ServoSpinDirection > 0 ? 1 : ServoSpinDirection < 0 ? -1 : 0);
 
         if (gamepad1.dpadDownWasReleased()) {
-            Shooter.MaxShooterPower -= 0.1;
+            Shooter.MaxShooterPower = Math.max(Shooter.MaxShooterPower - 0.1, 0);
           } else if(gamepad1.dpadUpWasReleased()) {
-            Shooter.MaxShooterPower += 0.1;
+            Shooter.MaxShooterPower = Math.min(Shooter.MaxShooterPower + 0.1, 1);
         }
 
         if (gamepad1.share) {
