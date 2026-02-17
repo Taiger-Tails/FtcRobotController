@@ -35,15 +35,15 @@ public class Tests extends OpMode {
 
         // Test Test Servo
 
-        Servo TestServo = hardwareMap.get(Servo.class, "TS");
-        Servo TestServo2 = hardwareMap.get(Servo.class, "TS2");
-
-        // thinking a lot in this space...
-
-        Position = Position + 0.1 % 1;
-        telemetry.addData("Servo Position", TestServo.getPosition());
-        TestServo.setPosition(Position);
-        TestServo2.setPosition(Position);
+//        Servo TestServo = hardwareMap.get(Servo.class, "TS");
+//        Servo TestServo2 = hardwareMap.get(Servo.class, "TS2");
+//
+//        // thinking a lot in this space...
+//
+//        Position = Position + 0.1 % 1;
+//        telemetry.addData("Servo Position", TestServo.getPosition());
+//        TestServo.setPosition(Position);
+//        TestServo2.setPosition(Position);
 
         // Test Drive methods
 

@@ -48,14 +48,13 @@ public class Drive {
 
     public void DriveFieldRelative(final double x, final double y, final double Rotation) {
         final double MaxSpeed = Constants.MAX_DRIVE_SPEED;
-        final double Yaw = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // Get the Yaw angle of the robot
+        final double Yaw = -Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // Get the Yaw angle of the robot
 
         // Rotate the movement direction counter to the robot's rotation
         double RotX = x * Math.cos(-Yaw) - y * Math.sin(-Yaw);
         double RotY = x * Math.sin(-Yaw) + y * Math.cos(-Yaw);
 
         RotX = RotX * 1.1;  // Counteract imperfect strafing
-        RotY = RotY * 1.1;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,

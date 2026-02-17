@@ -37,7 +37,7 @@ public class Main extends OpMode {
 
         final double Aqua = ToggleDriveSlowness ? 0.15 : 1; // Aqua is useful!
 
-        final double Forward = -gamepad1.left_stick_y * Aqua;
+        final double Forward = gamepad1.left_stick_y * Aqua;
         final double Strafe = gamepad1.left_stick_x * Aqua;
         final double Rotate = gamepad1.right_stick_x * Aqua;
 
