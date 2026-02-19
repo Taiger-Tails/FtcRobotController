@@ -33,7 +33,6 @@ public class Main extends OpMode {
 
         telemetry.addData("Drive Slowness", ToggleDriveSlowness);
         telemetry.addData("Current Max Shooter Power", Shooter.MaxShooterPower);
-        telemetry.addData("ShooterMotor", Shooter.ShooterMotor);
 
         final double Aqua = ToggleDriveSlowness ? 0.15 : 1; // Aqua is useful!
 
@@ -48,16 +47,20 @@ public class Main extends OpMode {
 
         if (gamepad1.dpadDownWasReleased()) {
             Shooter.MaxShooterPower = Math.max(Shooter.MaxShooterPower - 0.1, 0);
-          } else if(gamepad1.dpadUpWasReleased()) {
+        } else if (gamepad1.dpadUpWasReleased()) {
             Shooter.MaxShooterPower = Math.min(Shooter.MaxShooterPower + 0.1, 1);
         }
 
-        if (gamepad1.share) {
-            Drive.ResetIMU();
-        }
+        if (gamepad1.shareWasPressed()) { Drive.ResetIMU(); }
 
         AprilTagWebcam.Update();
         AprilTagDetection Detection = AprilTagWebcam.GetTagByID(Constants.RED_APRIL_TAG_ID);
         AprilTagWebcam.DisplayTelemetryData(Detection);
+
+        if (Detection != null) {
+            telemetry.addData("Distance", Detection.ftcPose.range);
+        } else {
+            telemetry.addLine(";-;");
+        }
     }
 }

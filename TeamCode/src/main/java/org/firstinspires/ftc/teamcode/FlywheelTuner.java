@@ -16,9 +16,9 @@ public class FlywheelTuner extends OpMode {
 
     public double CurTargetVelocity = HighVelocity;
 
-    public double P = 0;
-    public double I = 0;
-    public double D = 0;
+    public double P = 15;
+    public double I = 1.0102;
+    public double D = 12;
     public double F = 0;
 
     public boolean Switch = false;
