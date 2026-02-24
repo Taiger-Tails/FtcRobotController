@@ -16,6 +16,12 @@ public class Main extends OpMode {
 
     boolean ToggleDriveSlowness = false;
 
+    double PreviousX, PreviousY = 0;
+
+    private double Ease(double PointA, double PointB) {
+        return PointA + ((PointB - PointA) / 5);
+    }
+
     // Initialize driving
     @Override
     public void init() {
@@ -36,9 +42,12 @@ public class Main extends OpMode {
 
         final double Aqua = ToggleDriveSlowness ? 0.15 : 1; // Aqua is useful!
 
-        final double Forward = gamepad1.left_stick_y * Aqua;
-        final double Strafe = gamepad1.left_stick_x * Aqua;
+        final double Forward = Ease(PreviousY, gamepad1.left_stick_y * Aqua);
+        final double Strafe = Ease(PreviousX, gamepad1.left_stick_x * Aqua);
         final double Rotate = gamepad1.right_stick_x * Aqua;
+
+        PreviousX = Strafe;
+        PreviousY = Forward;
 
         Drive.DriveFieldRelative(Strafe, Forward, Rotate);
 
@@ -49,6 +58,10 @@ public class Main extends OpMode {
             Shooter.MaxShooterPower = Math.max(Shooter.MaxShooterPower - 0.1, 0);
         } else if (gamepad1.dpadUpWasReleased()) {
             Shooter.MaxShooterPower = Math.min(Shooter.MaxShooterPower + 0.1, 1);
+        }
+
+        if (Shooter.ShooterSpeed >= Constants.MIN_SPEED_TO_ENABLE_SERVOS) {
+            gamepad1.rumble(100);
         }
 
         if (gamepad1.shareWasPressed()) { Drive.ResetIMU(); }

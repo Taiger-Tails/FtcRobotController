@@ -22,6 +22,6 @@ final public class Constants {
     final public String BACK_LEFT_WHEEL_NAME = "BL";
     final public String IMU_NAME = "IMU";
     final public double MAX_DRIVE_SPEED = 1;
-    final public DcMotor.RunMode WHEEL_RUN_MODE = DcMotor.RunMode.RUN_WITHOUT_ENCODER;
+    final public DcMotor.RunMode WHEEL_RUN_MODE = DcMotor.RunMode.RUN_USING_ENCODER;
     final public DcMotor.ZeroPowerBehavior WHEEL_ZERO_POWER_BEHAVIOUR = DcMotor.ZeroPowerBehavior.BRAKE;
 }
