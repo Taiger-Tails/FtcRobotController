@@ -19,7 +19,7 @@ public class Main extends OpMode {
     double PreviousX, PreviousY = 0;
 
     private double Ease(double PointA, double PointB) {
-        return PointA + ((PointB - PointA) / 5);
+        return PointA + ((PointB - PointA) / Constants.EASE_POWER);
     }
 
     // Initialize driving
@@ -60,9 +60,11 @@ public class Main extends OpMode {
             Shooter.MaxShooterPower = Math.min(Shooter.MaxShooterPower + 0.1, 1);
         }
 
-        if (Shooter.ShooterSpeed >= Constants.MIN_SPEED_TO_ENABLE_SERVOS) {
-            gamepad1.rumble(100);
-        }
+        telemetry.addData("Max RPM", Shooter.ShooterMotor.getMotorType().getMaxRPM());
+
+//        if (Shooter.ShooterSpeed >= Constants.MIN_SPEED_TO_ENABLE_SERVOS) {
+//            gamepad1.rumble(100);
+//        }
 
         if (gamepad1.shareWasPressed()) { Drive.ResetIMU(); }
 

@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.Drive;
 import org.firstinspires.ftc.teamcode.Shooter;
 
 @Deprecated
-@Disabled
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class CloseAutonomous extends LinearOpMode {
     Drive Drive = new Drive();

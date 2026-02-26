@@ -1,23 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class Autonomous extends OpMode {
-    AprilTagWebcam AprilTagWebcam = new AprilTagWebcam();
+public class Autonomous extends LinearOpMode {
+    BaseAutonomous Autonomous = new BaseAutonomous();
     Constants Constants = new Constants();
 
     @Override
-    public void init() {
-        AprilTagWebcam.Init(hardwareMap, telemetry);
-    }
+    public void runOpMode() {
+        Autonomous.Init(hardwareMap, telemetry);
 
-    @Override
-    public void loop() {
-        AprilTagWebcam.Update();
-        AprilTagDetection Detection = AprilTagWebcam.GetTagByID(Constants.RED_APRIL_TAG_ID);
-        AprilTagWebcam.DisplayTelemetryData(Detection);
+        waitForStart();
+
+        Autonomous.DriveInches(new Vector2d(0, 20), 0.1, 0.1);
     }
 }
