@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class Autonomous extends LinearOpMode {
+public class CloseAutonomousLeave extends LinearOpMode {
     BaseAutonomous Autonomous = new BaseAutonomous();
     Constants Constants = new Constants();
 
@@ -13,6 +13,6 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
 
-        Autonomous.DriveInches(new Vector2d(0, 20), 0.1, 0.1);
+        Autonomous.DriveInches(new Vector2d(-Constants.INCHES_PER_SQUARE * 3, Constants.INCHES_PER_SQUARE), -0.5, 0.01);
     }
 }

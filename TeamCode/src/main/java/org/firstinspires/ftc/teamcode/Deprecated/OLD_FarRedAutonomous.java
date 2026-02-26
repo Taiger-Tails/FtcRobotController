@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Deprecated;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Constants;
@@ -9,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Shooter;
 
 @Deprecated
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class FarBlueAutonomous extends LinearOpMode {
+public class OLD_FarRedAutonomous extends LinearOpMode {
     Drive Drive = new Drive();
     Shooter Shooter = new Shooter();
     final Constants Constants = new Constants();
@@ -32,7 +31,7 @@ public class FarBlueAutonomous extends LinearOpMode {
 
         Shooter.SetShooterPower(Constants.MAX_SHOOTER_POWER);
 
-        Drive.DriveFieldRelative(0, 0, 1);
+        Drive.DriveFieldRelative(0, 0, -1);
 
         sleep(250);
 

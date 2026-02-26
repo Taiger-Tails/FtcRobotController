@@ -12,6 +12,11 @@ public class BaseAutonomous {
 
     private Telemetry Telemetry;
 
+    final public double MAX_SHOOTER_POWER = 0.467;
+    final public double MAX_FORWARD_POWER = 0.5;
+    final public double MAX_STRAFE_POWER = 0.5;
+    final public double MAX_SERVO_POWER = 0.9;
+
     public void Init(HardwareMap HwMap, Telemetry telemetry) {
         Shooter.Init(HwMap);
         Drive.Init(HwMap);
@@ -34,7 +39,7 @@ public class BaseAutonomous {
 
             Vector2d Traveled = new Vector2d(
                     ((BackLeftTicks + BackRightTicks + FrontLeftTicks + FrontRightTicks) / 4) * Constants.INCHES_PER_TICK,
-                    ((BackLeftTicks - BackRightTicks + FrontLeftTicks - FrontRightTicks) / 4) * Constants.INCHES_PER_TICK);
+                    ((-FrontLeftTicks + FrontRightTicks + BackLeftTicks - BackRightTicks) / 4) * Constants.INCHES_PER_TICK);
 
             Telemetry.addData("x", Traveled.x);
             Telemetry.addData("z", Traveled.z);
@@ -47,7 +52,7 @@ public class BaseAutonomous {
                 break;
             }
 
-            Drive.DriveFieldRelative(DoForward ? -Forward : 0, DoStrafe ? -Strafe : 0, 0);
+            Drive.DriveFieldRelative(DoForward ? -Forward * MAX_FORWARD_POWER : 0, DoStrafe ? -Strafe * MAX_STRAFE_POWER : 0, 0);
         }
     }
 
@@ -68,5 +73,13 @@ public class BaseAutonomous {
 
     public void ResetIMU() {
         Drive.ResetIMU();
+    }
+
+    public void SetShooterPower(double Power) {
+        Shooter.SetShooterPower(Power * MAX_SHOOTER_POWER);
+    }
+
+    public void SetServoPower(double Power) {
+        Shooter.SetServoPower(Power * MAX_SERVO_POWER);
     }
 }
