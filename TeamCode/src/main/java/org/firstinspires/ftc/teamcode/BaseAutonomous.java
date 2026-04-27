@@ -12,10 +12,10 @@ public class BaseAutonomous {
 
     private Telemetry Telemetry;
 
-    final public double MAX_SHOOTER_POWER = 0.467;
-    final public double MAX_FORWARD_POWER = 0.5;
-    final public double MAX_STRAFE_POWER = 0.5;
-    final public double MAX_SERVO_POWER = 0.9;
+    public double MAX_SHOOTER_POWER = 0.467;
+    public double MAX_FORWARD_POWER = 0.5;
+    public double MAX_STRAFE_POWER = 0.5;
+    public double MAX_SERVO_POWER = 0.9;
 
     public void Init(HardwareMap HwMap, Telemetry telemetry) {
         Shooter.Init(HwMap);
@@ -31,6 +31,18 @@ public class BaseAutonomous {
         double initialPositionBackRight = Drive.BackRight.getCurrentPosition();
         double initialPositionBackLeft = Drive.BackLeft.getCurrentPosition();
 
+        if (Direction.z > 0) {
+            Forward = Math.abs(Forward);
+        } else {
+            Forward = -Math.abs(Forward);
+        }
+
+        if (Direction.x > 0) {
+            Strafe = Math.abs(Forward);
+        } else {
+            Strafe = -Math.abs(Forward);
+        }
+
         while (true) {
             double FrontRightTicks = Drive.FrontRight.getCurrentPosition() - initialPositionFrontRight;
             double FrontLeftTicks = Drive.FrontLeft.getCurrentPosition() - initialPositionFrontLeft;
@@ -44,8 +56,8 @@ public class BaseAutonomous {
             Telemetry.addData("x", Traveled.x);
             Telemetry.addData("z", Traveled.z);
 
-            boolean DoStrafe = Math.abs(Math.floor(Traveled.x)) != Math.floor(Direction.x);
-            boolean DoForward = Math.abs(Math.floor(Traveled.z)) != Math.floor(Direction.z);
+            boolean DoStrafe =  Direction.x != 0 && !(Math.abs(Math.floor(Traveled.x)) >= Math.abs(Math.floor(Direction.x)));
+            boolean DoForward = Direction.z != 0 && !(Math.abs(Math.floor(Traveled.z)) >= Math.abs(Math.floor(Direction.z)));
 
             if (!(DoForward || DoStrafe)) {
                 Drive.DriveFieldRelative(0, 0, 0);
@@ -63,21 +75,13 @@ public class BaseAutonomous {
         this.DriveInches(Direction, Forward, Strafe);
     }
 
-    public void RotateToDegree(double Degree, double Power) {
-        while (Math.floor( Drive.Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) ) != Math.floor(Degree)) {
-            Drive.DriveFieldRelative(0, 0, Power);
-        }
-
-        Drive.DriveFieldRelative(0, 0, 0);
-    }
+    public void Rotate(double Power) { Drive.DriveFieldRelative(0, 0, Power); }
 
     public void ResetIMU() {
         Drive.ResetIMU();
     }
 
-    public void SetShooterPower(double Power) {
-        Shooter.SetShooterPower(Power * MAX_SHOOTER_POWER);
-    }
+    public void SetShooterPower(double Power) { Shooter.SetShooterPower(Power * MAX_SHOOTER_POWER); }
 
     public void SetServoPower(double Power) {
         Shooter.SetServoPower(Power * MAX_SERVO_POWER);

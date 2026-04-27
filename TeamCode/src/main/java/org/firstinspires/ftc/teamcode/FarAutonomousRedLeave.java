@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class CloseAutonomousLeave extends LinearOpMode {
+public class FarAutonomousRedLeave extends LinearOpMode {
     BaseAutonomous Autonomous = new BaseAutonomous();
     Constants Constants = new Constants();
 
@@ -14,6 +14,6 @@ public class CloseAutonomousLeave extends LinearOpMode {
 
         waitForStart();
 
-        Autonomous.DriveInches(new Vector2d(0, Constants.INCHES_PER_SQUARE), 0.5, 0.5);
+        Autonomous.DriveInches(new Vector2d(0, -Constants.INCHES_PER_SQUARE * 1.5), 1, 1);
     }
 }

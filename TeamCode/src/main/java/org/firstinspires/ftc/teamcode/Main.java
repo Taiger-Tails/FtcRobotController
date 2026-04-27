@@ -18,6 +18,9 @@ public class Main extends OpMode {
 
     double PreviousX, PreviousY = 0;
 
+    int LoopItterations = 0;
+    boolean ServoWait = false;
+
     private double Ease(double PointA, double PointB) {
         return PointA + ((PointB - PointA) / Constants.EASE_POWER);
     }
@@ -33,6 +36,16 @@ public class Main extends OpMode {
     // Initialize gamepad controls
     @Override
     public void loop() {
+        if (ServoWait) {
+           LoopItterations += 1;
+
+           if (LoopItterations == 100000) {
+               Shooter.SetServoPower(0);
+               LoopItterations = 0;
+               ServoWait = false;
+           }
+        }
+
         final double ServoSpinDirection = gamepad1.left_trigger - gamepad1.right_trigger;
 
         ToggleDriveSlowness = gamepad1.left_stick_button || gamepad1.right_stick_button || gamepad1.right_bumper || gamepad1.left_bumper;
@@ -52,7 +65,7 @@ public class Main extends OpMode {
         Drive.DriveFieldRelative(Strafe, Forward, Rotate);
 
         Shooter.SetShooterPower(gamepad1.a ? 1 : gamepad1.b ? -1 : 0);
-        Shooter.SetServoPower(ServoSpinDirection > 0 ? 1 : ServoSpinDirection < 0 ? -1 : 0);
+        Shooter.SetServoPower(ServoSpinDirection > 0 ? 0.8 : ServoSpinDirection < 0 ? -0.8 : 0);
 
         if (gamepad1.dpadDownWasReleased()) {
             Shooter.MaxShooterPower = Math.max(Shooter.MaxShooterPower - 0.1, 0);
@@ -60,22 +73,15 @@ public class Main extends OpMode {
             Shooter.MaxShooterPower = Math.min(Shooter.MaxShooterPower + 0.1, 1);
         }
 
-        telemetry.addData("Max RPM", Shooter.ShooterMotor.getMotorType().getMaxRPM());
+        if (gamepad1.xWasPressed()) {
+            ServoWait = true;
+            Shooter.SetServoPower(0.8);
+        }
 
 //        if (Shooter.ShooterSpeed >= Constants.MIN_SPEED_TO_ENABLE_SERVOS) {
 //            gamepad1.rumble(100);
 //        }
 
         if (gamepad1.shareWasPressed()) { Drive.ResetIMU(); }
-
-        AprilTagWebcam.Update();
-        AprilTagDetection Detection = AprilTagWebcam.GetTagByID(Constants.RED_APRIL_TAG_ID);
-        AprilTagWebcam.DisplayTelemetryData(Detection);
-
-        if (Detection != null) {
-            telemetry.addData("Distance", Detection.ftcPose.range);
-        } else {
-            telemetry.addLine(";-;");
-        }
     }
 }
