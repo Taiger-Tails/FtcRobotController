@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.Datatypes.Coordinate2d;
+import org.firstinspires.ftc.teamcode.Datatypes.Vector2d;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class FarAutonomousRed extends LinearOpMode {
@@ -40,7 +42,6 @@ public class FarAutonomousRed extends LinearOpMode {
 
         sleep(100);
 
-        Autonomous.DriveInches(new Vector2d(0, -Constants.INCHES_PER_SQUARE), 1, 1);
-
+        Autonomous.DriveToCoordinate(new Coordinate2d(new Vector2d(0, -Constants.INCHES_PER_SQUARE), 0));
     }
 }

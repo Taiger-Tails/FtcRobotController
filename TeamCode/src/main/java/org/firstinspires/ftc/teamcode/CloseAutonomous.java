@@ -1,20 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.robotcore.external.Consumer;
+import org.firstinspires.ftc.teamcode.Datatypes.Coordinate2d;
+import org.firstinspires.ftc.teamcode.Datatypes.Vector2d;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class CloseAutonomous extends LinearOpMode {
     BaseAutonomous Autonomous = new BaseAutonomous();
     Constants Constants = new Constants();
 
-    @Override
     public void runOpMode() {
         Autonomous.Init(hardwareMap, telemetry);
 
         waitForStart();
 
-        Autonomous.DriveInches(new Vector2d(0, -Constants.INCHES_PER_SQUARE * 2), -1, 0.01);
+        Autonomous.DriveToCoordinate(new Coordinate2d(new Vector2d(0, -Constants.INCHES_PER_SQUARE * 2), 0));
 
         sleep(100);
 
@@ -36,6 +47,6 @@ public class CloseAutonomous extends LinearOpMode {
 
         sleep(100);
 
-        Autonomous.DriveInches(new Vector2d(Constants.INCHES_PER_SQUARE, -Constants.INCHES_PER_SQUARE), 1, 1);
+        Autonomous.DriveToCoordinate(new Coordinate2d(new Vector2d(Constants.INCHES_PER_SQUARE, -Constants.INCHES_PER_SQUARE * 3), 0));
     }
 }
