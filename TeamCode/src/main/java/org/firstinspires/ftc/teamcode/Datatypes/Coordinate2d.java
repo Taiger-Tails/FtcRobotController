@@ -8,4 +8,14 @@ public class Coordinate2d {
         this.Position = Position;
         this.Rotation = Rotation;
     }
+
+    public Coordinate2d(Vector2d Position, Vector2d LookAt) {
+        double DirectionX = LookAt.x - Position.x;
+        double DirectionY = LookAt.z - Position.z;
+
+        double Angle = Math.toDegrees(Math.atan2(DirectionY, DirectionX));
+
+        this.Position = Position;
+        this.Rotation = Angle;
+    }
 }

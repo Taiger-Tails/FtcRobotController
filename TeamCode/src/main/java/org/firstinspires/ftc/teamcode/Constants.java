@@ -24,9 +24,10 @@ final public class Constants {
     final public double MAX_DRIVE_SPEED = 1;
     final public double EASE_POWER = 5;
     final public double INCHES_PER_TICK = 0.0238606537818182;
-    final public double INCHES_PER_SQUARE = 24;
+    final public int INCHES_PER_SQUARE = 24;
     final public int GOAL_DIGIT_PRECISION = 2;
     final public float GOAL_ARRIVE_SMOOTHNESS = 2;
+    final public float GOAL_ARRIVE_ROTATION_SMOOTHNESS = 2;
     final public DcMotor.RunMode WHEEL_RUN_MODE = DcMotor.RunMode.RUN_USING_ENCODER;
     final public DcMotor.ZeroPowerBehavior WHEEL_ZERO_POWER_BEHAVIOUR = DcMotor.ZeroPowerBehavior.BRAKE;
 }

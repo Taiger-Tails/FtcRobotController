@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Rotation;
 import org.firstinspires.ftc.teamcode.Datatypes.Coordinate2d;
 import org.firstinspires.ftc.teamcode.Datatypes.Vector2d;
 
@@ -25,6 +27,7 @@ public class BaseAutonomous {
     public double MAX_FORWARD_POWER = 1;
     public double MAX_STRAFE_POWER = 1;
     public double MAX_SERVO_POWER = 0.9;
+    public double MAX_ROTATION_POWER = 1;
 
     public Vector2d CurrentPosition = new Vector2d(0, 0);
 
@@ -56,6 +59,8 @@ public class BaseAutonomous {
             double BackRightTicks = Drive.BackRight.getCurrentPosition() - InitialPositionBackRight;
             double BackLeftTicks = Drive.BackLeft.getCurrentPosition() - InitialPositionBackLeft;
 
+            double Yaw = Drive.Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+
             Vector2d Traveled = new Vector2d(
                     ((BackLeftTicks + BackRightTicks + FrontLeftTicks + FrontRightTicks) / 4) * Constants.INCHES_PER_TICK,
                     ((-FrontLeftTicks + FrontRightTicks + BackLeftTicks - BackRightTicks) / 4) * Constants.INCHES_PER_TICK
@@ -64,17 +69,17 @@ public class BaseAutonomous {
             int Multiplier = (int)Math.pow(10, Constants.GOAL_DIGIT_PRECISION);
 
             if (Math.floor(CurrentPosition.x * Multiplier) == Math.floor(Point.x * Multiplier)
-                    && Math.floor(CurrentPosition.z * Multiplier) == Math.floor(Point.z * Multiplier))
+                    && Math.floor(CurrentPosition.z * Multiplier) == Math.floor(Point.z * Multiplier)
+                    && Math.floor(Coordinate.Rotation * Multiplier) == Math.floor(Yaw * Multiplier))
             { Drive.DriveFieldRelative(0, 0, 0); break; }
 
             Drive.DriveFieldRelative(
-                    MAX_FORWARD_POWER * Math.min(Direction.z / Constants.GOAL_ARRIVE_SMOOTHNESS, 1),
-                    MAX_STRAFE_POWER * Math.min(Direction.x / Constants.GOAL_ARRIVE_SMOOTHNESS, 1),
-                    0
+                    MAX_FORWARD_POWER * Math.max(Math.min(Direction.z / Constants.GOAL_ARRIVE_SMOOTHNESS, 1), -1),
+                    MAX_STRAFE_POWER * Math.max(Math.min(Direction.x / Constants.GOAL_ARRIVE_SMOOTHNESS, 1), -1),
+                    MAX_ROTATION_POWER * Math.max(Math.min((Yaw + Coordinate.Rotation) / Constants.GOAL_ARRIVE_ROTATION_SMOOTHNESS, 1), -1)
             );
 
-            CurrentPosition.x = InitialPosition.x + Traveled.x;
-            CurrentPosition.z = InitialPosition.z + Traveled.z;
+            CurrentPosition.add(Traveled);
         }
     }
 
