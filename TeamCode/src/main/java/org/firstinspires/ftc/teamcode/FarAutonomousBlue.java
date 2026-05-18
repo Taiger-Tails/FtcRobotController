@@ -12,7 +12,7 @@ public class FarAutonomousBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Autonomous.Init(hardwareMap, telemetry);
+        Autonomous.Init(hardwareMap);
         Autonomous.MAX_SHOOTER_POWER = 0.9;
 
         waitForStart();

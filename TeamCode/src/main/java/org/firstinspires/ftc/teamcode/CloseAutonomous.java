@@ -21,7 +21,7 @@ public class CloseAutonomous extends LinearOpMode {
     Constants Constants = new Constants();
 
     public void runOpMode() {
-        Autonomous.Init(hardwareMap, telemetry);
+        Autonomous.Init(hardwareMap);
 
         waitForStart();
 

@@ -12,15 +12,16 @@ public class TestAutonomous extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Autonomous.Init(hardwareMap, telemetry);
+        Autonomous.Init(hardwareMap);
         Autonomous.MAX_SHOOTER_POWER = 0.9;
 
         waitForStart();
 
-        Autonomous.DriveToCoordinate(
-                new Coordinate2d(new Vector2d(-(3 * Constants.INCHES_PER_SQUARE), 0),
-                        new Vector2d(3 * Constants.INCHES_PER_SQUARE,
-                                6 * Constants.INCHES_PER_SQUARE
-                        )));
+        while (true) {
+            Autonomous.DriveToCoordinate(
+                    new Coordinate2d(new Vector2d(1, 1), 0)
+            );
+            sleep(10);
+        }
     }
 }

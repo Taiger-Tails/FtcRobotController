@@ -8,7 +8,6 @@ final public class Constants {
     final public String SERVO_RIGHT_NAME = "SR";
     final public String SERVO_LEFT_NAME = "SL";
     final public String SHOOTER_WHEEL_NAME = "Shooter";
-
     final public String SECOND_SHOOTER_WHEEL_NAME = "Shooter2";
     final public double MAX_SHOOTER_POWER = 0.8;
     final public double MIN_SPEED_TO_ENABLE_SERVOS = 0.008;
@@ -23,11 +22,18 @@ final public class Constants {
     final public String IMU_NAME = "IMU";
     final public double MAX_DRIVE_SPEED = 1;
     final public double EASE_POWER = 5;
+
+    // Autonomous constants
+
     final public double INCHES_PER_TICK = 0.0238606537818182;
     final public int INCHES_PER_SQUARE = 24;
     final public int GOAL_DIGIT_PRECISION = 2;
     final public float GOAL_ARRIVE_SMOOTHNESS = 2;
-    final public float GOAL_ARRIVE_ROTATION_SMOOTHNESS = 2;
+    final public float GOAL_ARRIVE_ROTATION_SMOOTHNESS = 10;
+    final public float GOAL_ARRIVE_ROTATION_ERROR_MARGIN = 1;
+
+    // Wheel constants
+
     final public DcMotor.RunMode WHEEL_RUN_MODE = DcMotor.RunMode.RUN_USING_ENCODER;
     final public DcMotor.ZeroPowerBehavior WHEEL_ZERO_POWER_BEHAVIOUR = DcMotor.ZeroPowerBehavior.BRAKE;
 }

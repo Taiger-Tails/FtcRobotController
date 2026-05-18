@@ -12,7 +12,7 @@ public class FarAutonomousBlueLeave extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Autonomous.Init(hardwareMap, telemetry);
+        Autonomous.Init(hardwareMap);
 
         waitForStart();
 

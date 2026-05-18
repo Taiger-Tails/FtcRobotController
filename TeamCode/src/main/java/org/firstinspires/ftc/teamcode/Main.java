@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @TeleOp
@@ -52,6 +53,7 @@ public class Main extends OpMode {
 
         telemetry.addData("Drive Slowness", ToggleDriveSlowness);
         telemetry.addData("Current Max Shooter Power", Shooter.MaxShooterPower);
+        telemetry.addData("Yaw", Drive.Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 
         final double Aqua = ToggleDriveSlowness ? 0.15 : 1; // Aqua is useful!
 
