@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @TeleOp
 public class Main extends OpMode {
@@ -19,7 +18,7 @@ public class Main extends OpMode {
 
     double PreviousX, PreviousY = 0;
 
-    int LoopItterations = 0;
+    int LoopIterations = 0;
     boolean ServoWait = false;
 
     private double Ease(double PointA, double PointB) {
@@ -38,11 +37,11 @@ public class Main extends OpMode {
     @Override
     public void loop() {
         if (ServoWait) {
-           LoopItterations += 1;
+           LoopIterations += 1;
 
-           if (LoopItterations == 100000) {
+           if (LoopIterations == 100000) {
                Shooter.SetServoPower(0);
-               LoopItterations = 0;
+               LoopIterations = 0;
                ServoWait = false;
            }
         }
@@ -79,10 +78,6 @@ public class Main extends OpMode {
             ServoWait = true;
             Shooter.SetServoPower(0.8);
         }
-
-//        if (Shooter.ShooterSpeed >= Constants.MIN_SPEED_TO_ENABLE_SERVOS) {
-//            gamepad1.rumble(100);
-//        }
 
         if (gamepad1.shareWasPressed()) { Drive.ResetIMU(); }
     }

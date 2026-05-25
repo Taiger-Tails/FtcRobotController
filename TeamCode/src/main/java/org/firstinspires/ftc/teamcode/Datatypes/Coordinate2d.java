@@ -13,7 +13,7 @@ public class Coordinate2d {
         double DirectionX = LookAt.x - Position.x;
         double DirectionY = LookAt.z - Position.z;
 
-        double Angle = Math.toDegrees(Math.atan2(DirectionY, DirectionX));
+        double Angle = Math.toRadians(Math.atan2(DirectionY, DirectionX));
 
         this.Position = Position;
         this.Rotation = Angle;

@@ -27,8 +27,8 @@ final public class Constants {
 
     final public double INCHES_PER_TICK = 0.0238606537818182;
     final public int INCHES_PER_SQUARE = 24;
-    final public int GOAL_DIGIT_PRECISION = 2;
-    final public float GOAL_ARRIVE_SMOOTHNESS = 2;
+    final public int GOAL_DIGIT_PRECISION = 1;
+    final public float GOAL_ARRIVE_SMOOTHNESS = 20;
     final public float GOAL_ARRIVE_ROTATION_SMOOTHNESS = 10;
     final public float GOAL_ARRIVE_ROTATION_ERROR_MARGIN = 1;
 

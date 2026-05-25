@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Datatypes.Coordinate2d;
 import org.firstinspires.ftc.teamcode.Datatypes.Vector2d;
 
@@ -13,15 +14,17 @@ public class TestAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() {
         Autonomous.Init(hardwareMap);
-        Autonomous.MAX_SHOOTER_POWER = 0.9;
 
         waitForStart();
 
         while (true) {
             Autonomous.DriveToCoordinate(
-                    new Coordinate2d(new Vector2d(1, 1), 0)
+                    new Coordinate2d(new Vector2d(0, 1 * Constants.INCHES_PER_SQUARE), Autonomous.Drive.Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS))
             );
-            sleep(10);
+
+            Autonomous.DriveToCoordinate(
+                    new Coordinate2d(new Vector2d(0, 0), Autonomous.Drive.Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS))
+            );
         }
     }
 }

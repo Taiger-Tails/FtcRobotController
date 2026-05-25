@@ -54,9 +54,6 @@ public class Drive {
         double RotX = x * Math.cos(-Yaw) - y * Math.sin(-Yaw);
         double RotY = x * Math.sin(-Yaw) + y * Math.cos(-Yaw);
 
-        RotX = RotX * 1.1; // Counteract imperfect strafing
-        RotY = RotY * 1.1;
-
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
