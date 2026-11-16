@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
+import java.lang.reflect.*;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 //@Disabled
@@ -14,6 +15,18 @@ public class Tests extends OpMode {
     Drive Drive = new Drive();
 
     double Position = 0;
+
+    private void DumpFields(Object object, Telemetry telemetry) throws IllegalAccessException {
+        Class<?> c = object.getClass();
+        Field[] fields = c.getDeclaredFields();
+
+        for (Field f : fields) {
+            Class<?> type = f.getType();
+
+            telemetry.addData(type.getName(), f.getName());
+            telemetry.addData("", f.get(c));
+        }
+    }
 
     @Override
     public void init() {
@@ -33,18 +46,6 @@ public class Tests extends OpMode {
 
         telemetry.addData("Shooter Speed", Shooter.ShooterSpeed);
 
-        // Test Test Servo
-
-//        Servo TestServo = hardwareMap.get(Servo.class, "TS");
-//        Servo TestServo2 = hardwareMap.get(Servo.class, "TS2");
-//
-//        // thinking a lot in this space...
-//
-//        Position = Position + 0.1 % 1;
-//        telemetry.addData("Servo Position", TestServo.getPosition());
-//        TestServo.setPosition(Position);
-//        TestServo2.setPosition(Position);
-
         // Test Drive methods
 
         double Forward = gamepad1.left_stick_y;
@@ -59,26 +60,10 @@ public class Tests extends OpMode {
         telemetry.addData("Rotate", Rotate);
         telemetry.addData("Yaw", Drive.Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 
-//        Drive.ResetIMU();
-//        telemetry.addData("Drive: ResetIMU", "OK");
-
-        // Test joysticks
-
-        telemetry.addData("gamepad1.left_stick_x", gamepad1.left_stick_x);
-        telemetry.addData("gamepad1.left_stick_y", gamepad1.left_stick_y);
-        telemetry.addData("gamepad1.right_stick_x", gamepad1.right_stick_x);
-        telemetry.addData("gamepad1.right_stick_y", gamepad1.right_stick_y);
-
-        // Test buttons
-
-        telemetry.addData("gamepad1.a", gamepad1.a);
-        telemetry.addData("gamepad1.b", gamepad1.b);
-        telemetry.addData("gamepad1.x", gamepad1.x);
-        telemetry.addData("gamepad1.y", gamepad1.y);
-        telemetry.addData("gamepad1.ps", gamepad1.ps);
-        telemetry.addData("gamepad.left_bumper",gamepad1.left_bumper);
-        telemetry.addData("gamepad1.right_bumper",gamepad1.right_bumper);
-        telemetry.addData("gamepad1.right_stick_button", gamepad1.right_stick_button);
-        telemetry.addData("gamepad1.left_stick_button", gamepad1.left_stick_button);
+        try {
+            DumpFields(gamepad1, telemetry);
+        } catch (IllegalAccessException e) {
+            telemetry.addData("failed to dump gamepad1 ;-; ", e.getMessage());
+        }
     }
 }

@@ -16,16 +16,14 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AprilTagWebcam {
+public class AprilTagWebcam extends RobotComponent {
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
     private List<AprilTagDetection> detectedTags = new ArrayList<>();
 
-    private Telemetry telemetry;
 
-    public void Init(HardwareMap hwMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+    public void Init(HardwareMap hwMap) {
 
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)
@@ -44,7 +42,7 @@ public class AprilTagWebcam {
     }
 
     @SuppressLint("DefaultLocale")
-    public void DisplayTelemetryData(AprilTagDetection Detected) {
+    public void DisplayTelemetryData(AprilTagDetection Detected, Telemetry telemetry) {
         if (Detected == null) { return; }
 
         if (Detected.metadata != null) {

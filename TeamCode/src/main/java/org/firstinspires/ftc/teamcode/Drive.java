@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class Drive {
+public class Drive extends RobotComponent {
     public DcMotor FrontLeft, FrontRight, BackLeft, BackRight;
     public IMU Imu; // Gyros used to get the robots rotation
     private final Constants Constants = new Constants();

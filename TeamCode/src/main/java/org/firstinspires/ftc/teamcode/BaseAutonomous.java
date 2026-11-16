@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Datatypes.Coordinate2d;
 import org.firstinspires.ftc.teamcode.Datatypes.Vector2d;
 
-public class BaseAutonomous {
+public class BaseAutonomous extends RobotComponent {
     final public Drive Drive = new Drive();
     final private Shooter Shooter = new Shooter();
     final private Constants Constants = new Constants();

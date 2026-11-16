@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-public class Shooter {
+public class Shooter extends RobotComponent {
     // Make variables
     final private Constants Constants = new Constants();
 
