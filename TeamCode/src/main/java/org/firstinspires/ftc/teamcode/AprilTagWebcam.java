@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.util.Size;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -22,8 +25,19 @@ public class AprilTagWebcam extends RobotComponent {
 
     private List<AprilTagDetection> detectedTags = new ArrayList<>();
 
+    private static final Size CAMERA_RESOLUTION = new Size(1920, 1080);
+    private static final YawPitchRollAngles CAMERA_ORIENTATION =
+            new YawPitchRollAngles(AngleUnit.DEGREES, 0, 64, 0, 0);
+
+    public static double WEBCAM_X = 0;
+    public static double WEBCAM_Y = 7.3;
+    public static double WEBCAM_Z = 36;
+
+    private static final double FX = 500, FY = 500, CX = 320, CY = 240;
 
     public void Init(HardwareMap hwMap) {
+        Position cameraPosition = new Position(
+                DistanceUnit.CM, WEBCAM_X, WEBCAM_Y, WEBCAM_Z, 0);
 
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)
@@ -31,14 +45,16 @@ public class AprilTagWebcam extends RobotComponent {
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
+                .setLensIntrinsics(FX, FY, CX, CY)
+                .setCameraPose(cameraPosition, CAMERA_ORIENTATION)
                 .build();
 
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
-        builder.setCameraResolution(new Size(640, 480));
-        builder.addProcessor(aprilTagProcessor);
-
-        visionPortal = builder.build();
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hwMap.get(WebcamName.class, "Webcam 1"))
+                .setCameraResolution(CAMERA_RESOLUTION)
+                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+                .addProcessor(aprilTagProcessor)
+                .build();
     }
 
     @SuppressLint("DefaultLocale")
